@@ -16,9 +16,14 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post("/", (req, res) => {
+app.get("/logger", (req, res) => {
+  res.send("ok");
+})
+
+app.post("/logger", (req, res) => {
   const logs = req.body;
-  res.end("ok");
+  io.emit("log", logs);
+  res.send("ok");
 })
 
 io.on('connection', (socket) => {
