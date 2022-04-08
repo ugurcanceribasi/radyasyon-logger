@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
 
 app.post("/", (req, res) => {
   const logs = req.body;
-  io.emit("log", logs);
   res.end("ok");
 })
 
