@@ -25,6 +25,6 @@ io.on('connection', (socket) => {
   console.log('a user connected');
 });
 
-server.listen(3001, () => {
-  console.log('listening on *:3001');
+server.listen(80, () => {
+  console.log('listening on *:80');
 });
