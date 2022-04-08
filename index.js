@@ -10,15 +10,11 @@ const io = new Server(server);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
-const port = process.env.PORT || 80;
+const port = 3001;
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
-
-app.get("/logger", (req, res) => {
-  res.send("ok");
-})
 
 app.post("/logger", (req, res) => {
   const logs = req.body;
@@ -31,5 +27,5 @@ io.on('connection', (socket) => {
 });
 
 server.listen(port, () => {
-  console.log('listening on *:80');
+  console.log('listening on *:3001');
 });
