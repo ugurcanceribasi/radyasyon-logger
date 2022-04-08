@@ -10,6 +10,7 @@ const io = new Server(server);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
+const port = process.env.PORT || 80;
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
@@ -25,6 +26,6 @@ io.on('connection', (socket) => {
   console.log('a user connected');
 });
 
-server.listen(80, () => {
+server.listen(port, () => {
   console.log('listening on *:80');
 });
