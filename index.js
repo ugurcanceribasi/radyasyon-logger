@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
-app.post("/logger", (req, res) => {
+app.post("/", (req, res) => {
   const logs = req.body;
   io.emit("log", logs);
   res.end("ok");
