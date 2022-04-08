@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Radyasyon Log Watcher</title>
+  <style>
+    body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  </style>
+</head>
+<body>
+  <h2>Radyasyon Log Watcher</h2>
+  <ul id="logs"></ul>
+</body>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  const logsDiv = document.getElementById("logs");
+  socket.on('log', function(msg) {
+    console.log(msg);
+    logsDiv.innerHTML += "<li><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
+  });
+</script>
+</html>
