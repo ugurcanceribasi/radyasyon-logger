@@ -17,8 +17,9 @@ app.get('/', (req, res) => {
 });
 
 app.post("/logger", (req, res) => {
-  const logs = req.body;
-  io.emit("log", logs);
+  const log = req.body;
+  const { type } = req.query;
+  io.emit(type, log);
   res.send("ok");
 })
 
