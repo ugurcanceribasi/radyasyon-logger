@@ -23,6 +23,12 @@ app.post("/logger", (req, res) => {
   res.send("ok");
 })
 
+app.post("/network", (req, res) => {
+  const networkData = req.body;
+  io.emit("network", networkData);
+  res.send("ok");
+})
+
 io.on('connection', (socket) => {
   console.log('a user connected');
 });

@@ -28,20 +28,23 @@
   var socket = io();
   const logsDiv = document.getElementById("logs");
   socket.on('log', function(msg) {
-    console.log(msg);
+    //console.log(msg);
     logsDiv.innerHTML += "<li><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
   });
   socket.on('info', function(msg) {
-    console.info(msg);
+    //console.info(msg);
     logsDiv.innerHTML += "<li class='info'><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
   });
   socket.on('warn', function(msg) {
-    console.warn(msg);
+    //console.warn(msg);
     logsDiv.innerHTML += "<li class='warn'><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
   });
   socket.on('error', function(msg) {
-    console.error(msg);
+    //console.error(msg);
     logsDiv.innerHTML += "<li class='error'><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
+  });
+  socket.on('network', function (msg) {
+    console.log(msg);
   });
 </script>
 </html>
