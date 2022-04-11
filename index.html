@@ -16,17 +16,58 @@
     ul li {
       margin-bottom: 10px;
     }
+    .network {
+      display: none;
+    }
   </style>
+  <link rel="stylesheet"
+        href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/default.min.css">
+  <script type="module" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
 </head>
 <body>
-  <h2>Radyasyon Log Watcher</h2>
+  <button id="btn-logs">Logs</button>
+  <button id="btn-network">Network</button>
+  <h2 id="title">Radyasyon Log Watcher</h2>
   <ul id="logs"></ul>
+  <ul style="display:none" id="network"></ul>
 </body>
 <script src="https://momentjs.com/downloads/moment.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
+
+  function getUniqueId() {
+    return parseInt(Math.ceil(Math.random() * Date.now()).toPrecision(8).toString().replace(".", ""))
+  }
+
+  function showNetworkDetail(detailId) {
+    let networks = document.getElementsByClassName("network");
+    console.log(networks);
+    for (let item of networks) {
+      item.style.display = "none";
+    }
+    document.getElementById(detailId).style.display = "block";
+  }
+
+  const titleDiv = document.getElementById("title");
   const logsDiv = document.getElementById("logs");
+  const networkDiv = document.getElementById("network");
+
+  const logsButton = document.getElementById("btn-logs");
+  const networkButton = document.getElementById("btn-network");
+
+  logsButton.addEventListener("click", () => {
+    titleDiv.innerHTML = "Radyasyon Log Watcher";
+    networkDiv.style.display = "none";
+    logsDiv.style.display = "block";
+  });
+  networkButton.addEventListener("click", () => {
+    titleDiv.innerHTML = "Radyasyon Network Watcher";
+    networkDiv.style.display = "block";
+    logsDiv.style.display = "none";
+  });
+
   socket.on('log', function(msg) {
     //console.log(msg);
     logsDiv.innerHTML += "<li><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
@@ -44,7 +85,20 @@
     logsDiv.innerHTML += "<li class='error'><b>"+moment().format('LT')+"</b> : "+msg+"</li>";
   });
   socket.on('network', function (msg) {
+    let uniqid = getUniqueId();
+    let divid = "network-"+uniqid;
     console.log(msg);
+    networkDiv.innerHTML += "<li><b>"+moment().format('LT')+"</b> : "+msg.url+"<br />" +
+      "<button onclick='showNetworkDetail(\""+divid+"\")'" +
+      "  class='show-button'>Show</button>" +
+      "<div class='network' id='"+divid+"'>"+
+      "<b>URL : </b>"+msg.url+"<br />"+
+      "<b>Status :</b>"+ msg.status +"<br />"+
+      "<b>Response : </b>" + "<pre><code class='language-json'>"+JSON.stringify(msg.data)+"</code></pre>"
+      "<br />"+
+      "<b>Headers : </b>"+ JSON.stringify(msg.headers)+""
+      +"</div>"
+      "</li>";
   });
 </script>
 </html>
