@@ -50,7 +50,6 @@ io.on('connection', (socket) => {
     io.emit("identify", devices.map((device) => device.id));
   });
   socket.on("log", (msg) => {
-    io.emit("log", msg);
     io.to(socket.id).emit("log", msg);
     console.log("socket id : "+socket.id);
   });
@@ -83,6 +82,6 @@ io.on('connection', (socket) => {
 
 });
 
-server.listen(process.env.PORT || port, () => {
-  console.log('listening on *:'+process.env.PORT || port);
+server.listen(port, () => {
+  console.log('listening on *:'+port);
 });
