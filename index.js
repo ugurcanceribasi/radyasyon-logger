@@ -50,6 +50,7 @@ io.on('connection', (socket) => {
     io.emit("identify", devices.map((device) => device.id));
   });
   socket.on("log", (msg) => {
+    io.emit("log", msg);
     io.to(socket.id).emit("log", msg);
     console.log("socket id : "+socket.id);
   });
