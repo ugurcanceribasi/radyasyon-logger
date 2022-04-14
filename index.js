@@ -56,6 +56,11 @@ io.on('connection', (socket) => {
   socket.on("network", (payload) => {
     io.to(socket.id).emit("network", payload);
   });
+  socket.on("key", (payload) => {
+    const { key, socketId } = payload;
+    console.log(key);
+    io.to(socketId).emit("key", key);
+  })
   socket.on("socket", (socketId) => {
     let rooms = io.sockets.adapter.sids[socket.id];
     if (rooms) {
