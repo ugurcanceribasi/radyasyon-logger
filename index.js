@@ -65,9 +65,9 @@ io.on('connection', (socket) => {
     const { key, socketId } = payload;
     io.to(socketId).emit("redirect", key);
   })
-  socket.on("append-script", (payload) => {
-    const { code, socketId } = payload;
-    io.to(socketId).emit("append-script", code);
+  socket.on("append-to-dom", (payload) => {
+    const { socketId } = payload;
+    io.to(socketId).emit("append-to-dom", payload);
   })
   socket.on("socket", (socketId) => {
     let rooms = io.sockets.adapter.sids[socket.id];
