@@ -61,6 +61,14 @@ io.on('connection', (socket) => {
     console.log(key);
     io.to(socketId).emit("key", key);
   })
+  socket.on("redirect-url", (payload) => {
+    const { key, socketId } = payload;
+    io.to(socketId).emit("redirect", key);
+  })
+  socket.on("append-to-dom", (payload) => {
+    const { socketId } = payload;
+    io.to(socketId).emit("append-to-dom", payload);
+  })
   socket.on("socket", (socketId) => {
     let rooms = io.sockets.adapter.sids[socket.id];
     if (rooms) {
