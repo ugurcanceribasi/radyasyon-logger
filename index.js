@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
     let index = devices.findIndex((device) => device.id === socket.id);
-    if (index !== undefined) {
+    if (index > -1) {
       devices = devices.length > 1 ? devices.splice(index, 1) : [];
       console.log(devices.length+" cihaz kaldı");
       io.to("clients").emit("devices", devices);
