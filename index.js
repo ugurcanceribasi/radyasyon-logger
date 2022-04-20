@@ -29,13 +29,14 @@ io.on('connection', (socket) => {
   const device = {...socket.handshake.query, id: socket.id };
   switch (type) {
     case "client":
-        //console.log("Bir cihaz bağlandı - Client");
+        console.log("Bir cihaz bağlandı - Client");
         socket.join("clients");
+        io.to("clients").emit("devices", devices);
       break;
     case "app":
       const { model, brand, userAgent, date } = socket.handshake.query;
       socket.join("devices");
-      //console.log("Bir cihaz bağlandı - Smart TV APP")
+      console.log("Bir cihaz bağlandı - Smart TV APP")
       //console.log("Marka : "+brand);
       //console.log("Model : "+model);
       //console.log("userAgent : "+userAgent);
@@ -51,7 +52,6 @@ io.on('connection', (socket) => {
   });
   socket.on("log", (msg) => {
     io.to(socket.id).emit("log", msg);
-    console.log("socket id : "+socket.id);
   });
   socket.on("network", (payload) => {
     io.to(socket.id).emit("network", payload);
@@ -82,8 +82,9 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
     let index = devices.findIndex((device) => device.id === socket.id);
-    if (index) {
-      devices = devices.splice(index, 1);
+    if (index !== undefined) {
+      devices = devices.length > 1 ? devices.splice(index, 1) : [];
+      console.log(devices.length+" cihaz kaldı");
       io.to("clients").emit("devices", devices);
     }
   });
